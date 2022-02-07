@@ -2,4 +2,7 @@
     <string name="app_name">MyComposeTest</string>
     <string name="txt_show_less">Show less</string>
     <string name="txt_show_more">Show more</string>
+    <string name="title_activity_layout">LayoutActivity</string>
+    <string name="title_activity_scaffold">ScaffoldActivity</string>
+    <string name="title_activity_list">ListActivity</string>
 </resources>

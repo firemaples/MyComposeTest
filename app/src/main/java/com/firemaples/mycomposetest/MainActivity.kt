@@ -3,6 +3,7 @@ package com.firemaples.mycomposetest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
@@ -69,27 +70,46 @@ fun Greetings(names: List<String> = List(1000) { "#$it" }) {
 
 @Composable
 private fun Greeting(name: String) {
-    Surface(
-        color = MaterialTheme.colors.primary,
+    Card(
+        backgroundColor = MaterialTheme.colors.primary,
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
         var expended by rememberSaveable { mutableStateOf(false) }
-        val extraPadding by animateDpAsState(
-            targetValue = if (expended) 48.dp else 0.dp,
-            animationSpec = spring(
-                dampingRatio = Spring.DampingRatioMediumBouncy,
-                stiffness = Spring.StiffnessLow,
-            )
-        )
+//        val extraPadding by animateDpAsState(
+//            targetValue = if (expended) 48.dp else 0.dp,
+//            animationSpec = spring(
+//                dampingRatio = Spring.DampingRatioMediumBouncy,
+//                stiffness = Spring.StiffnessLow,
+//            )
+//        )
 
-        Row(modifier = Modifier.padding(24.dp)) {
+        Row(
+            modifier = Modifier
+                .padding(24.dp)
+                .animateContentSize(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessLow,
+                    )
+                )
+        ) {
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom = extraPadding.coerceAtLeast(0.dp))
+//                    .padding(bottom = extraPadding.coerceAtLeast(0.dp))
             ) {
                 Text(text = "Hello, ")
                 Text(text = name)
+
+                if (expended) {
+                    Text(
+                        text = "However, hard-coding strings is a bad practice and you should get them from the strings.xml file.\n" +
+                                "\n" +
+                                "You can use \"Extract string resource\" on each string, available in \"Context Actions\" in Android Studio to do this automatically.\n" +
+                                "\n" +
+                                "Alternatively, open app/src/res/values/strings.xml and add the following resources:"
+                    )
+                }
             }
 
             IconButton(onClick = { expended = !expended }) {
